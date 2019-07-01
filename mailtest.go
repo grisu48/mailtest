@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"fmt"
 	"os"
 	"bufio"
@@ -22,6 +21,7 @@ func readCredentials() (string, string) {
     fmt.Print("Password: ")
     bytePassword, err := terminal.ReadPassword(int(syscall.Stdin))
     if err != nil { panic(err) }
+    fmt.Println()
     password := string(bytePassword)
     return strings.TrimSpace(username), strings.TrimSpace(password)
 }
@@ -95,10 +95,12 @@ func main() {
 	}()
 	fmt.Println("Mailboxes:")
 	for m := range mailboxes {
-		fmt.Println("* " + m.Name)
+		fmt.Println("\t* " + m.Name)
+	}
+	if err := <-done; err != nil {
+		fmt.Fprintln(os.Stderr, "Error fetching mailboxes: ", err)
+		os.Exit(1)
 	}
 
-	if err := <-done; err != nil {
-		log.Fatal(err)
-	}
+	fmt.Println("All good")
 }
