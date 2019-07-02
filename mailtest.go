@@ -83,7 +83,8 @@ func main() {
 
 	username, password := readCredentials()
 	if err := c.Login(username, password); err != nil {
-		fmt.Fprint(os.Stderr, "Login failed: %s\n", err)
+		fmt.Fprint(os.Stderr, "Login error: ", err)
+		fmt.Fprintln(os.Stderr)
 		os.Exit(1)
 	}
 
@@ -98,7 +99,8 @@ func main() {
 		fmt.Println("\t* " + m.Name)
 	}
 	if err := <-done; err != nil {
-		fmt.Fprintln(os.Stderr, "Error fetching mailboxes: ", err)
+		fmt.Fprint(os.Stderr, "Error fetching mailboxes: ", err)
+		fmt.Fprintln(os.Stderr)
 		os.Exit(1)
 	}
 
